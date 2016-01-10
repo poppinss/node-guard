@@ -18,7 +18,7 @@ const allowedOptions = ['DENY', 'ALLOW-FROM', 'SAMEORIGIN']
  * @public
  */
 guard.addFrameOptions = function (res, value) {
-  if(!value) {
+  if (!value) {
     return
   }
 
@@ -26,12 +26,12 @@ guard.addFrameOptions = function (res, value) {
   let header = xValues[0].trim().toUpperCase()
   const headerValues = xValues[1]
 
-  if(typeof(header) !== 'string' || allowedOptions.indexOf(header) === -1) {
+  if (typeof (header) !== 'string' || allowedOptions.indexOf(header) === -1) {
     throw new Error('X-Frame accepts a string within DENY, ALLOW-FROM or SAMEORIGIN')
   }
 
-  if(header === 'ALLOW-FROM') {
-    if(typeof(headerValues) !== 'string') {
+  if (header === 'ALLOW-FROM') {
+    if (typeof (headerValues) !== 'string') {
       throw new Error('Specify a value next to ALLOW-FROM using a space')
     }
     header = `${header} ${headerValues}`
@@ -47,7 +47,7 @@ guard.addFrameOptions = function (res, value) {
  * @param  {Boolean}   nosniff
  */
 guard.addNoSniff = function (res, nosniff) {
-  if(!nosniff) {
+  if (!nosniff) {
     return
   }
   res.setHeader('X-Content-Type-Options', 'nosniff')
@@ -61,7 +61,7 @@ guard.addNoSniff = function (res, nosniff) {
  * @param  {Boolean}   noopen
  */
 guard.addNoOpen = function (res, noopen) {
-  if(!noopen) {
+  if (!noopen) {
     return
   }
   res.setHeader('X-Download-Options', 'noopen')
@@ -77,11 +77,10 @@ guard.addNoOpen = function (res, noopen) {
  * @param  {Object}     options
  */
 guard.addXssFilter = function (req, res, options) {
-
   /**
    * if not enabled, do not add any headers
    */
-  if(!options || !options.enabled) {
+  if (!options || !options.enabled) {
     return
   }
 
@@ -89,7 +88,7 @@ guard.addXssFilter = function (req, res, options) {
    * if enabled and ie is also enabled, than set it to
    * 1 mode block
    */
-  if(options.enableOnOldIE) {
+  if (options.enableOnOldIE) {
     return res.setHeader('X-XSS-Protection', '1; mode=block')
   }
 
@@ -99,7 +98,7 @@ guard.addXssFilter = function (req, res, options) {
    * if user is not on ie or able to parse user agent
    * properly than set it to 1 mode block
    */
-  if(!matches || (parseFloat(matches[1]) >= 9)) {
+  if (!matches || (parseFloat(matches[1]) >= 9)) {
     return res.setHeader('X-XSS-Protection', '1; mode=block')
   }
 
